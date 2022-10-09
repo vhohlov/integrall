@@ -24,7 +24,7 @@ RUN apt-get update \
     && echo "deb [signed-by=/usr/share/keyrings/ppa_ondrej_php.gpg] https://ppa.launchpadcontent.net/ondrej/php/ubuntu jammy main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
     && apt-get update \
     && apt-get install -y php8.1-cli php8.1-dev \
-       php8.1-sqlite3 php8.1-gd \
+       php8.1-pgsql php8.1-sqlite3 php8.1-gd \
        php8.1-curl \
        php8.1-imap php8.1-mysql php8.1-mbstring \
        php8.1-xml php8.1-zip php8.1-bcmath php8.1-soap \
@@ -43,19 +43,19 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y yarn \
     && apt-get install -y mysql-client \
+    && apt-get install -y postgresql-client-$POSTGRES_VERSION \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.1
 
-#RUN groupadd --force -g $WWWGROUP sail
-#RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
+RUN groupadd --force -g $WWWGROUP sail
+RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
-COPY . /var/www/html/
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8000
