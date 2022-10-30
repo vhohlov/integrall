@@ -50,7 +50,7 @@ RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.1
 
 RUN groupadd --force sails \
     && useradd -ms /bin/bash --no-user-group -g sails -u 1337 sail\
-    && a2enmod rewrite \
+#    && a2enmod rewrite \
     && a2enmod headers
 
 RUN apt-get update && apt-get install iputils-ping
@@ -63,6 +63,13 @@ COPY docker/8.1/start-container /usr/local/bin/start-container
 COPY docker/8.1/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 #COPY docker/8.1/php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
+
+COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY .env.example /var/www/html/.env
+RUN chmod 777 -R /var/www/html/storage/ && \
+    echo "Listen 8080" >> /etc/apache2/ports.conf && \
+    chown -R www-data:www-data /var/www/html && \
+    a2enmod rewrite
 
 EXPOSE 8080
 
