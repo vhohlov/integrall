@@ -4,10 +4,10 @@
    args: ['-c', 'docker pull gcr.io/$PROJECT_ID/integrall:latest || exit 0']
  # Build the container image
  - name: 'gcr.io/cloud-builders/docker'
-   args: ['build', '-t', 'gcr.io/$PROJECT_ID/integrall:latest:$COMMIT_SHA', '--cache-from', 'gcr.io/$PROJECT_ID/integrall:latest', '.']
+   args: ['build', '-t', 'gcr.io/$PROJECT_ID/integrall:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/integrall:latest', '--cache-from', 'gcr.io/$PROJECT_ID/integrall:latest', '.']
  # Push the container image to Container Registry
  - name: 'gcr.io/cloud-builders/docker'
-   args: ['push', 'gcr.io/$PROJECT_ID/integrall:latest']
+   args: ['push', 'gcr.io/$PROJECT_ID/integrall:$COMMIT_SHA']
  # Deploy container image to Cloud Run
  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
    entrypoint: gcloud
@@ -16,8 +16,8 @@
    - 'deploy'
    - 'integrall'
    - '--image'
-   - 'gcr.io/$PROJECT_ID/integrall:latest'
+   - 'gcr.io/$PROJECT_ID/integrall:$COMMIT_SHA'
    - '--region'
    - 'europe-west4'
  images:
- - 'gcr.io/$PROJECT_ID/integrall:latest'
+ - 'gcr.io/$PROJECT_ID/integrall:$COMMIT_SHA'
