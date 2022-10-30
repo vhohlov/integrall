@@ -1,8 +1,6 @@
 FROM ubuntu:22.04
 
-LABEL maintainer="Taylor Otwell"
-
-ARG WWWGROUP
+#ARG WWWGROUP
 ARG NODE_VERSION=16
 ARG POSTGRES_VERSION=14
 
@@ -14,7 +12,7 @@ ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update \
-    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 \
+    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 apache2 libapache2-mod-php \
     && mkdir -p ~/.gnupg \
     && chmod 600 ~/.gnupg \
     && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
@@ -50,12 +48,18 @@ RUN apt-get update \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.1
 
-RUN groupadd --force -g $WWWGROUP sails
-RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
+RUN groupadd --force sails \
+    && useradd -ms /bin/bash --no-user-group -g sails -u 1337 sail\
+    && a2enmod rewrite \
+    && a2enmod headers
 
+RUN apt-get update && apt-get install iputils-ping
+RUN apt-get install -y vim
+COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY . .
 COPY docker/8.1/start-container /usr/local/bin/start-container
 COPY docker/8.1/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/8.1/php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
+#COPY docker/8.1/php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8080

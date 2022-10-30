@@ -5,8 +5,6 @@ services:
         build:
             context: ./
             dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
         image: integrall
         extra_hosts:
             - 'host.docker.internal:host-gateway'
