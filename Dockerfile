@@ -58,7 +58,7 @@ RUN groupadd --force sails \
 #RUN apt-get update && apt-get install iputils-ping
 #RUN apt-get install -y vim
 
-COPY . .
+COPY . . 
 RUN composer install
 COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/8.1/start-container /usr/local/bin/start-container
