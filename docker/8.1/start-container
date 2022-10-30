@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ ! -z "$WWWUSER" ]; then
+if [ ! -z "$WWWUSER" ]; then #-z true if string is null
     usermod -u $WWWUSER sail
 fi
 
@@ -9,9 +9,10 @@ if [ ! -d /.composer ]; then
 fi
 
 chmod -R ugo+rw /.composer
+chmod -R ugo+w ./storage
 
-if [ $# -gt 0 ]; then
-    exec gosu $WWWUSER "$@"
-else
+#if [ $# -gt 0 ]; then
+#    exec gosu $WWWUSER "$@"
+#else
     exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-fi
+#fi
