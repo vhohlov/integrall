@@ -14,5 +14,6 @@ chmod -R ugo+w ./storage
 #if [ $# -gt 0 ]; then
 #    exec gosu $WWWUSER "$@"
 #else
-    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+    exec /usr/sbin/apache2ctl -DFOREGROUND
+    #exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 #fi
