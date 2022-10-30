@@ -76,3 +76,4 @@ RUN chmod 777 -R /var/www/html/storage/ && \
 EXPOSE 8080
 
 ENTRYPOINT ["start-container"]
+
