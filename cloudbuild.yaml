@@ -1,15 +1,10 @@
-steps:
-- name: 'gcr.io/cloud-builders/docker'
+ steps:
+ - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args: ['-c', 'docker pull gcr.io/$PROJECT_ID/integrall:latest || exit 0']
  # Build the container image
  - name: 'gcr.io/cloud-builders/docker'
-   args: [
-    'build', 
-    '-t', 'gcr.io/$PROJECT_ID/integrall:$COMMIT_SHA',
-    '--cache-from', 'gcr.io/$PROJECT_ID/integrall:latest',
-    '.'
-    ]
+   args: ['build', '-t', 'gcr.io/$PROJECT_ID/integrall:$COMMIT_SHA', '--cache-from', 'gcr.io/$PROJECT_ID/[IMAGE_NAME]:latest', '.']
  # Push the container image to Container Registry
  - name: 'gcr.io/cloud-builders/docker'
    args: ['push', 'gcr.io/$PROJECT_ID/integrall:$COMMIT_SHA']
