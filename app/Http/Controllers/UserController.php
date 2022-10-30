@@ -15,13 +15,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        var_dump(DB::select('select * from app_users'));
-    
-        $users = DB::select('select * from app_users');
+    { 
         
-        var_dump($users);
-
+       $users = DB::select('select * from app_users');
+       var_dump($users);
         try {
             $redis = Redis::set('plm', '1234');
             var_dump(Redis::get('plm'));
