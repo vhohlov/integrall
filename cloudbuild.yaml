@@ -1,4 +1,4 @@
- steps:
+steps:
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args: ['-c', 'docker pull gcr.io/$PROJECT_ID/integrall:latest || exit 0']
