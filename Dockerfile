@@ -47,7 +47,7 @@ COPY docker/php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
 COPY docker/start-container /usr/local/bin/start-container
 COPY . . 
 RUN composer install
-RUN chmod -R u+w storage/logs
+RUN chmod -R u+w storage
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8080
