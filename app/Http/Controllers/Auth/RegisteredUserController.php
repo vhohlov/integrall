@@ -19,7 +19,8 @@ class RegisteredUserController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {
+    {   
+        //die("here");
         return view('auth.register');
     }
 
