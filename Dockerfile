@@ -40,6 +40,7 @@ RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.1
 RUN groupadd --force sails && useradd -ms /bin/bash --no-user-group -g sails -u 1337 sail
 RUN echo "Listen 8080" >> /etc/apache2/ports.conf \
     && chown -R www-data:www-data /var/www \
+    && chmod -R u+w /var/www/storage/logs \
     && a2enmod rewrite
 
 COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
