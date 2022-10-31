@@ -50,7 +50,8 @@ COPY . .
 RUN composer install \
     && php artisan key:generate \
     && php artisan config:cache \
-    && chmod -R 777 storage
+    && chmod -R 777 storage \
+    && npm install && npm run dev
 
 RUN chmod +x /usr/local/bin/start-container
 
