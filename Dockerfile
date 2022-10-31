@@ -46,8 +46,12 @@ COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
 COPY docker/start-container /usr/local/bin/start-container
 COPY . . 
-RUN composer install
-RUN chmod -R 777 storage
+
+RUN composer install \
+    && php artisan key:generate \
+    && php artisan config:cache \
+    && chmod -R 777 storage
+
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8080
