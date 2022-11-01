@@ -48,9 +48,11 @@ COPY docker/start-container /usr/local/bin/start-container
 COPY . . 
 
 RUN composer install \
-    && php artisan config:cache \
-    && chmod -R 777 storage \
-    && npm install && npm run dev
+#    && php artisan config:cache \
+    && chmod -R 777 . \
+    && npm install
+    
+RUN npm run
 
 RUN chmod +x /usr/local/bin/start-container
 
