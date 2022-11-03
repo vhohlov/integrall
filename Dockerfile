@@ -50,6 +50,7 @@ COPY . .
 RUN composer install \
 #    && php artisan config:cache \
     && chmod -R 777 . \
+    && php artisan breeze:install \
     && npm install
     
 RUN npm run
