@@ -51,9 +51,9 @@ RUN composer install \
 #    && php artisan config:cache \
     && chmod -R 777 . \
     && php artisan breeze:install \
-    && npm install dev
+    && npm install
     
-RUN npm run
+RUN npm run dev
 
 RUN chmod +x /usr/local/bin/start-container
 
